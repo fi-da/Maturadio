@@ -16,7 +16,7 @@ You can listen to the podcast and correct the transcription loading the data for
 
 
 
-# Elenco delle lezioni
+# Lesson list
 
 [Filosofia _ Immanuel Kant, Critica della Ragion Pura.mp3](http://mediapolisvod.rai.it/relinker/relinkerServlet.htm?cont=GAJvonssSlashgeb80eDrssSlash47ioXgeeqqEEqualeeqqEEqual)
 
