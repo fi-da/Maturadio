@@ -18,6 +18,8 @@ You can listen to the podcast and correct the transcription loading the data for
 
 # Lesson list
 
+Right click and save link as to download
+
 [Filosofia _ Immanuel Kant, Critica della Ragion Pura.mp3](http://mediapolisvod.rai.it/relinker/relinkerServlet.htm?cont=GAJvonssSlashgeb80eDrssSlash47ioXgeeqqEEqualeeqqEEqual)
 
 [Filosofia _ Immanuel Kant_ Critica della Ragion Pratica e Critica del Giudizio.mp3](http://mediapolisvod.rai.it/relinker/relinkerServlet.htm?cont=BKDSOJtMJj0o20LjpPpPluss79ShQeeqqEEqualeeqqEEqual)
