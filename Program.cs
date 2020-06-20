@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -33,43 +34,40 @@ namespace Maturadio
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
                 cli.BaseAddress = "https://www.raiplayradio.it/programmi/maturadio/archivio/puntate/";
-
-                string[] pages = new string[] {
-                "Filosofia--9084bb73-c542-4394-87a4-0b5ca22dbae1",
-                "Fisica--c20bcee6-d842-4065-b16a-9c6e10b4ef29",
-                "Greco--b1e926e0-5c7c-4169-a9ad-1c6e2b5177c9",
-                "Inglese-3220e445-c84f-4018-af08-1083e6f90f43",
-                "Italiano-d0c00d45-49ea-4847-bf9a-085313f003df",
-                "Latino-f91e4470-ccb2-4f4a-9488-80ce5563303c",
-                "Matematica--f11cde4f-c5b5-404e-ad2d-3bbd00ccd07b",
-                "Scienze-0ce5092a-9c5a-48d8-93e2-7343b6a7f96c",
-                "Storia--1e549437-c932-40d2-a3c3-f1fcc9c974d6",
-                "Storia-dellarte--7c5a8cf6-a166-40a7-82bc-5ab1898eae8d"
-                };
-
+                
+                string mainPage = cli.DownloadString($"https://www.raiplayradio.it/programmi/maturadio/archivio/puntate/");
+                HtmlDocument doc1 = new HtmlDocument();
+                doc1.LoadHtml(mainPage);
+   
                 string ClassToGet = "row listaAudio ";
-                foreach (var page in pages)
+
+                foreach (HtmlNode page in doc1.DocumentNode.SelectNodes("//ul[@class='menuProgramma']/li/a"))
                 {
-                    int i = 0;
-                    List<string> cmds = new List<string>();
-                    string htmlCode = cli.DownloadString($"https://www.raiplayradio.it/programmi/maturadio/archivio/puntate/{page}");
-                    HtmlDocument doc = new HtmlDocument();
-                    doc.LoadHtml(htmlCode);
+                    var linkUrl = page.Attributes["href"].Value;
 
-                    //Iterate each podcast
-                    foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='" + ClassToGet + "']"))
-                    {
-                        // Get the value of the data-mediapolis attribute, the link to the mp3 file
-                        string hrefValue = link.GetAttributeValue("data-mediapolis", string.Empty);
-                        if (hrefValue.StartsWith("http://mediapolisvod.rai.it"))
-                        {
-                            //name the filename as the data-title attribute
-                            string title = $"{MakeValidFileName(link.GetAttributeValue("data-title", string.Empty))}.mp3";
+                    if (linkUrl.StartsWith("https://www.raiplayradio.it/programmi/maturadio/archivio/puntate/"))
+                     {
+                         
+                         List<string> cmds = new List<string>();
+                         string htmlCode = cli.DownloadString(linkUrl);
+                         HtmlDocument doc = new HtmlDocument();
+                         doc.LoadHtml(htmlCode);
 
-                            cli.DownloadFile(hrefValue, title);
-                            
-                        }
-                    }
+                         //Iterate each podcast
+                         foreach (HtmlNode link in doc.DocumentNode.SelectNodes("//div[@class='" + ClassToGet + "']"))
+                         {
+                             // Get the value of the data-mediapolis attribute, the link to the mp3 file
+                             string hrefValue = link.GetAttributeValue("data-mediapolis", string.Empty);
+                             if (hrefValue.StartsWith("http://mediapolisvod.rai.it"))
+                             {
+                                 //name the filename as the data-title attribute
+                                 string title = $"{MakeValidFileName(link.GetAttributeValue("data-title", string.Empty))}.mp3";
+
+                                 cli.DownloadFile(hrefValue, title);
+  
+                             }
+                         }
+                     }                   
                 }
             }
         }
