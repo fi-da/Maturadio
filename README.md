@@ -11,7 +11,7 @@ For each podcast, the project contains also the automatic transcription in plain
 You can listen to the podcast and correct the transcription loading the data for example in to the [BBC Transcript Editor](https://bbc.github.io/react-transcript-editor/iframe.html?id=demo--default)
 
   1) Load Transcript, choose Amazon Transcribe
-  2) Load Media from Computer
+  2) Load Media from Computer or Load Media from URL using the links at the bottom
 
 
 
